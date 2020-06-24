@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CV</title>    
+	<link rel="stylesheet" type="text/css" href="css/main.css">    
+	<script src="node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">        	
+		<h1>Blockchain CV</h1>
+		<hr>
+		<div id="d_forms">
+			<div id="d_basic_info">
+				<h2>Add Basic Information</h2>
+				<label for="name" class="col-lg-2 control-label">Full Name</label>
+				<input id="name" type="text">        
+				<label for="email" class="col-lg-2 control-label">Email</label>
+				<input id="email" type="text">
+				<label for="phone" class="col-lg-2 control-label">Phone Number</label>
+				<input id="phone" type="text">        
+				<label for="addr" class="col-lg-2 control-label">Address</label>
+				<input id="addr" type="text">
+				<label for="profile" class="col-lg-2 control-label">Profile</label>
+				<input id="profile" type="text">
+				<button id="btnAddBasicInfo">Add Basic Info</button>
+			</div>
+			<hr>
+			<div id="d_entry">
+				<h2>Add Entry</h2>
+				<label for="sec" class="col-lg-2 control-label">Section Name</label>
+				<input id="sec" type="text"> 
+				<label for="title" class="col-lg-2 control-label">Title</label>
+				<input id="title" type="text">        
+				<label for="subtitle" class="col-lg-2 control-label">Subtitle</label>
+				<input id="subtitle" type="text">
+				<label for="s_date" class="col-lg-2 control-label">Start Date</label>
+				<input id="s_date" type="text">        
+				<label for="e_date" class="col-lg-2 control-label">End Date</label>
+				<input id="e_date" type="text">
+				<label for="other_info" class="col-lg-2 control-label">Other Info</label>
+				<input id="other_info" type="text">
+				<button id="btnAddEntry">Add Entry</button>
+			</div>
+		</div>
+    </div>   
+
+	<script target="_blank" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"> </script>    
+	
+	<script src="scripts/abi.js"> </script>
+	
+	<script>
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+
+		var _yourAccount;
+		var _contractAddress = '0x1051EEBF21A88068347Cd66cB48efEf45c24c81B';
+		var contractInstance;
+		var _gasLimit = 3000000;
+		
+		main();
+		
+		window.addEventListener('load', async () => {
+			// Modern dapp browsers...
+			if (window.ethereum) {
+				window.web3 = new Web3(ethereum);
+				try {
+					// Request account access if needed
+					await ethereum.enable();
+					// Acccounts now exposed
+					web3.eth.sendTransaction({/* ... */});
+				} catch (error) {
+					// User denied account access...
+				}
+			}
+			// Legacy dapp browsers...
+			else if (window.web3) {
+				window.web3 = new Web3(web3.currentProvider);
+				// Acccounts always exposed
+				web3.eth.sendTransaction({/* ... */});
+			}
+			// Non-dapp browsers...
+			else {
+				console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+			}
+		});
+
+		async function getAccount(){
+			let acc = (await web3.eth.getAccounts())[0];
+			return acc;	
+		}
+
+		async function main(){
+			_yourAccount = await getAccount();
+			
+			contractInstance  = new web3.eth.Contract(abi,_contractAddress);
+
+			console.log(contractInstance.methods);
+			console.log("My Account: " + _yourAccount);
+			
+			
+			$("#btnAddBasicInfo").click(function btn_AddBasicInfo(){
+				var _name = $("#name").val();
+				var _subtitle = $("#email").val();
+				var _s_date = $("#phone").val();
+				var _addr = $("#addr").val();
+				var _profile = $("#profile").val();;
+				
+				addBasicInfo(_name, _subtitle, _s_date, _addr, _profile);
+			});
+			
+			$("#btnAddEntry").click(function btn_addGenericEntry(){
+				var _sec_id = $("#sec").val();;
+				var _title = $("#title").val();
+				var _subtitle = $("#subtitle").val();
+				var _s_date = $("#s_date").val();
+				var _e_date = $("#e_date").val();
+				var _other_info = $("#other_info").val();;
+				
+				addGenericEntry(_sec_id, _title, _subtitle, _s_date, _e_date, _other_info);
+			});
+
+		}
+
+
+		function addGenericEntry(_sec_id, _title, _subtitle, _s_date, _e_date, _other_info){
+			contractInstance.methods.addGenericEntry(_sec_id, _title, _subtitle, _s_date, _e_date, _other_info).send({ from: _yourAccount, gas: _gasLimit });
+			console.log("Saved Entry: \n"+_sec_id+"\n\t"+_title+"\n\t"+_subtitle+"\n\t"+_s_date+"\n\t"+_e_date+"\n\t"+_other_info);
+		}
+
+		function addBasicInfo(_name, _phone, _email, _addr, _profile){
+			contractInstance.methods.addBasicInfo(_name, _phone, _email, _addr, _profile).send({ from: _yourAccount, gas: _gasLimit });
+			console.log("Saved Basic Info: \n"+_name+"\n\t"+_phone+"\n\t"+_email+"\n\t"+_addr+"\n\t"+_profile);
+		}
+
+	</script>
+	
+</body>
+</html>

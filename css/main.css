@@ -1,0 +1,44 @@
+body {
+    background-color:#F0F0F0;
+    padding: 2em;
+    font-family: 'Raleway','Source Sans Pro', 'Arial';
+}
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+label {
+    display:block;
+    margin-bottom:10px;
+}
+input {
+    padding:10px;
+    width: 80%;
+    margin-bottom: 1em;
+}
+button {
+    margin: 2em 0;
+    padding: 1em 4em;
+    display:block;
+}#result {
+    padding:1em;
+    background-color:#fff;
+    margin: 1em 0;
+}
+
+
+#d_forms{
+	width: 100%;
+	display:inline-block;
+	margin:0 auto;
+}
+
+#d_basic_info{
+}
+
+#d_entry{
+}
+
+#container{
+	display:block;
+}

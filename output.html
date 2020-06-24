@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>HTML to PDF Eample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="scripts/html2pdf.bundle.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/output.css">    
+	<script src="node_modules/web3/dist/web3.min.js"></script>
+</head>
+<body>
+	<label for="address" class="col-lg-2 control-label">Address</label>
+    <input id="address" type="text">        
+	<button id="btnGetCV">Get CV</button>
+    <button onclick="generatePDF()">Download as PDF</button>
+	<button onclick="reset()">Reset</button>
+	<hr></hr>
+    <div id="export">
+    </div>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"> </script>    
+	<script src="scripts/abi.js"> </script>
+	<script src="scripts/format_html.js"> </script>
+    <script>
+	const element = document.getElementById("export");
+    function generatePDF() {
+        // Choose the element and save the PDF for our user.
+        html2pdf()
+          .from(element)
+          .save();
+	}
+			
+	var _yourAccount;
+	var _contractAddress = '0x1051EEBF21A88068347Cd66cB48efEf45c24c81B';
+	var contractInstance;
+	var _gasLimit = 3000000;
+
+	init();
+
+
+	async function init(){	
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+		} else {
+			// set the provider you want from Web3.providers
+			web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+		}
+
+		_yourAccount = await getAccount();
+		
+		contractInstance  = new web3.eth.Contract(abi,_contractAddress);
+
+		console.log(contractInstance.methods);
+		console.log("My Account: " + _yourAccount);
+		
+		
+		$("#btnGetCV").click(async function btnGetCV(){
+			var _address = $("#address").val();		
+			sections_dict = await getCV(_address);
+			basic_info_dict = await getBasicInfo(_address);
+			element.appendChild(makeBasicInfo(basic_info_dict));
+			element.appendChild(makeSections(sections_dict));
+			
+		});
+		
+	}
+
+	function ocurrences(arr){
+		var dict = {};
+		for (i = 0; i < arr.length; i++){
+			if (!(arr[i] in dict)){
+				dict[arr[i]]=0;
+			}
+			dict[arr[i]]++;
+		}		
+		return dict;
+	}
+
+	async function getCV(_address){
+		var acc = $("#address").val();
+		var sec_keys = await getSectionKeys(acc)
+
+		var sec_keys_array = sec_keys.split(",").filter(function(el) {return el.length != 0});;
+
+		var sec_count_dict = ocurrences(sec_keys_array);
+		
+		
+		var sections_dict = {};
+		
+		for (var key in sec_count_dict){
+			var entries_dict = {};
+			for (i = 0; i < sec_count_dict[key]; i++){
+				var entry = await getGenericEntry(key, i, acc);
+				entries_dict[i]=entry;
+				//console.log("Entry: "+key+"-"+i+"  >>  "+entry[0]+","+entry[1]+","+entry[2]+","+entry[3]+","+entry[4]);
+			}
+			sections_dict[key] = entries_dict;
+		}
+		
+		return sections_dict;
+	}
+
+	async function getAccount(){
+		let acc = (await web3.eth.getAccounts())[0];
+		return acc;	
+	}
+	
+	
+	async function getSectionKeys(_address){
+		let result = (await contractInstance.methods.getSectionKeys(_address).call());
+		return result;
+	}
+
+	async function getGenericEntry(_sec_id, _ent_id, _address){
+		let result = (await contractInstance.methods.getGenericEntry(_sec_id, _ent_id, _address).call());
+		return result;
+	}
+
+	async function getBasicInfo(_address){
+		let result = (await contractInstance.methods.getBasicInfo(_address).call());
+		return result;
+	}
+
+
+
+/*
+	var basic_info_dict = {
+		0: "Paulo Pepito Perez Pachón",
+		1: "3102938554",
+		2: "pp@udistrital.edu.co",
+		3: "Cll 69 # 12-34",
+		4: "Desarrollador Full Stack con conocimientos en x1, xx, ss y adddd. Entusiasta de las nuevas tecnologías de información... ETC"
+	}
+
+	var sections_dict = {
+		"Work Info":{
+			0:{
+				0: "DBA",
+				1: "Google",
+				2: "20-3-2000",
+				3: "15-7-2005",
+				4: "Awesome google developer",
+			},
+			1:{
+				0: "Engineer",
+				1: "Tesla",
+				2: "2-2-2010",
+				3: "5-5-2020",
+				4: "Flying cars",
+			},
+			2:{
+				0: "Game Developer",
+				1: "Epic Games",
+				2: "2-2-2015",
+				3: "5-5-2030",
+				4: "Made 50 cool games",
+			}
+		},
+		"Education":{
+			0:{
+				0: "Ing Sist",
+				1: "UD",
+				2: "20-3-2000",
+				3: "15-7-2005",
+				4: "Titulo de ingeniero de sistemas de la universidad",
+			}		
+		}
+	}*/
+	
+	
+
+
+	
+    </script>
+	
+  </body>
+</html>
+
+
+
+

@@ -1,0 +1,12 @@
+npm install --g lerna
+
+npm install --save --no-optional web3
+
+
+web3 version: 1.2.9
+
+npm view web3 version
+
+npm install --save html2pdf.js
+
+npm install http-server -g

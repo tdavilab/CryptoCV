@@ -1,0 +1,85 @@
+body {
+    padding: 2em;
+    font-family: 'Raleway','Source Sans Pro', 'Arial';
+}
+.container {
+    width: 50%;
+    margin: 0 auto;
+}
+label {
+    display:block;
+    margin-bottom:10px;
+}
+input {
+    padding:10px;
+    width: 50%;
+    margin-bottom: 1em;
+}
+button {
+    margin: 2em 0;
+    padding: 1em 4em;
+    display:block;
+}#result {
+    padding:1em;
+    background-color:#fff;
+    margin: 1em 0;
+}
+
+#R_date {
+	padding: 0em 10em;
+	font-size: 15px;
+	margin-top: -6px;
+}
+
+#L_date {
+	float: left;
+	font-size: 15px;
+}
+
+#datediv {
+	display:inline-block;
+	
+}
+
+#itemdiv {
+	display: block;
+	width: 100%;
+}
+
+#title {
+	font-size: 20px;
+}
+
+#subtitle {
+	font-size: 12px;
+	margin-top: -15px;
+}
+
+#details {
+	font-size: 12px;
+}
+
+#h1, h2{
+	font-family: 'Arial', 'Arial';
+}
+
+#name{
+	font-family: 'Arial', 'Arial';
+}
+
+#info_div{
+	font-size: 13px;
+	margin-top: -20px;
+}
+
+#profile{
+	font-size: 15px;
+}
+
+#bd{
+	font-family: 'Arial', 'Arial';
+}
+
+ul{
+	list-style-type: none;
+}
