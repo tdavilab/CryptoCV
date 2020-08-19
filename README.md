@@ -43,7 +43,7 @@ In the console of the AWS EC2 instance, you have to execute the following comman
 
 ```sh
 cd /var/www/
-git clone https://github.com/tdavilab/tdavilab-Blockchain-CV.git .
+git clone https://github.com/tdavilab/blockchain-cv.git .
 ```
 
 ### Start the Ganache instance
