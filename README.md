@@ -73,9 +73,17 @@ To use the application, connect to the port 80 of your running AWS instance.
 - index.html allows you to insert generic information to your CV.
 - output.html allows you to see the complete CV stored on a specific blockchain address.
 
+## Project Overview
 
+![b1](https://user-images.githubusercontent.com/25911836/154666006-7603e53d-1e6a-4515-afa4-af4726c63ec0.png)
 
+## Project Overview
 
+### Interfaces (Add basic information and Add Generic Entry)
 
+![b2](https://user-images.githubusercontent.com/25911836/154666539-90151b92-3a4a-4c81-aa86-f4e170bca093.png)
+![b3](https://user-images.githubusercontent.com/25911836/154666556-b71c876d-cb22-4d3e-8ae5-cb0322a808f7.png)
 
+### Get CV
+![b4](https://user-images.githubusercontent.com/25911836/154666395-aedd8dd7-d825-48dc-9968-4d9bd3676e2d.png)
 
