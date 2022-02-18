@@ -1,4 +1,4 @@
-# Blockchain-CV
+# CryptoCV: Prototype of a DApp that stores CV entries in a blockchain smart contract 
 
 Application that allows you to generate your CV and store it on a Blockchain.
 It connects with a smart contract that dynamically stores CV information on a Blockchain.
